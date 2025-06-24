@@ -1,0 +1,15 @@
+/* member-list.css: 회원 목록 전용 스타일 */
+.table-title {
+    margin-bottom: 2rem;
+}
+.member-table {
+    margin-bottom: 0;
+}
+.member-table th {
+    background-color: #e0eafc;
+    color: #4a90e2;
+    font-weight: 600;
+}
+.member-table tr:hover {
+    background-color: #f2f8fd;
+}

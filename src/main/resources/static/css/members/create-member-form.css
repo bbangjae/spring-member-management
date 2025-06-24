@@ -1,0 +1,16 @@
+/* member-form.css: 회원 등록 폼 전용 스타일 */
+.form-title {
+    margin-bottom: 0.7rem;
+}
+.form-desc {
+    font-size: 1.05rem;
+    margin-bottom: 1.7rem;
+}
+.btn-primary {
+    width: 100%;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.btn-right {
+    margin-top: 1rem;
+}
