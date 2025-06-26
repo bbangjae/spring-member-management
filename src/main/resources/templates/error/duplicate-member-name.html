@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입 오류 - 중복된 이름</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+<body>
+<div class="container error-container">
+    <div class="error-icon">⚠️</div>
+    <h1 class="error-title">회원명 사용 불가</h1>
+    <p class="error-message" th:text="${errorMessage}">이미 존재하는 회원명입니다.</p>
+    <div class="btn-group">
+        <a href="/members/new" class="btn-custom">다시 회원가입</a>
+        <a href="/" class="btn-primary">홈으로 가기</a>
+    </div>
+</div>
+</body>
+</html>
