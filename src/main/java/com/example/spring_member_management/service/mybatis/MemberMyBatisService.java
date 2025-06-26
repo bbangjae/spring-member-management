@@ -1,6 +1,7 @@
 package com.example.spring_member_management.service.mybatis;
 
 import com.example.spring_member_management.domain.Member;
+import com.example.spring_member_management.dto.MemberDto;
 import com.example.spring_member_management.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,13 @@ public class MemberMyBatisService {
      * 회원가입
      */
     @Transactional
-    public Long join(Member member) {
+    public Long join(MemberDto memberRequest) {
+        Member member = new Member(memberRequest.getName());
+
         validateDuplicateMemberName(member);
+
         memberMapper.save(member);
+
         return member.getMemberId();
     }
 
