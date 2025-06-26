@@ -38,6 +38,7 @@ body {
 
 /* === 버튼/버튼 그룹 === */
 .btn-group {
+    margin-top: 20px;
     display: flex;
     gap: 1rem;
     justify-content: center;
@@ -45,8 +46,16 @@ body {
 .btn-custom,
 .btn-primary {
     min-width: 120px;
+    padding: 0.6rem 1.2rem;
     font-weight: 500;
     font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-block;
     letter-spacing: -0.5px;
 }
 .btn-right { text-align: right; }
