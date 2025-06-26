@@ -2,6 +2,7 @@ package com.example.spring_member_management.service.mybatis;
 
 import com.example.spring_member_management.domain.Member;
 import com.example.spring_member_management.dto.MemberDto;
+import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.mapper.MemberMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ class MemberMyBatisServiceTest {
         memberMyBatisService.join(member1);
 
         //when & then
-        assertThrows(IllegalStateException.class,
+        assertThrows(DuplicateMemberNameException.class,
                 () -> memberMyBatisService.join(member2),
                 "이미 존재하는 회원명입니다.");
     }
