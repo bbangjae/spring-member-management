@@ -20,8 +20,7 @@ public class MemoryMemberRepositoryTest {
     @Test
     void save() {
         //given
-        Member member = new Member();
-        member.setMemberName("SAVE TEST");
+        Member member = new Member("SAVE TEST");
 
         // when
         Member saveMember = memoryMemberRepository.save(member);
@@ -33,8 +32,7 @@ public class MemoryMemberRepositoryTest {
     @Test
     void findById() {
         //given
-        Member member = new Member();
-        member.setMemberName("NAME");
+        Member member = new Member("NAME");
         Member saveMember = memoryMemberRepository.save(member);
 
         // when
@@ -48,8 +46,7 @@ public class MemoryMemberRepositoryTest {
     @Test
     void findByName() {
         //given
-        Member member = new Member();
-        member.setMemberName("NAME");
+        Member member = new Member("NAME");
         Member saveMember = memoryMemberRepository.save(member);
 
         // when
@@ -63,12 +60,10 @@ public class MemoryMemberRepositoryTest {
     @Test
     void findAll() {
         //given
-        Member member = new Member();
-        member.setMemberName("NAME");
+        Member member = new Member("NAME");
         memoryMemberRepository.save(member);
 
-        Member member2 = new Member();
-        member2.setMemberName("NAME2");
+        Member member2 = new Member("NAME2");
         memoryMemberRepository.save(member2);
 
         // when

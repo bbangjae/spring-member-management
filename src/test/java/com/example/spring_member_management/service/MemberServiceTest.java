@@ -1,6 +1,7 @@
 package com.example.spring_member_management.service;
 
 import com.example.spring_member_management.domain.Member;
+import com.example.spring_member_management.dto.MemberDto;
 import com.example.spring_member_management.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,10 +32,10 @@ class MemberServiceTest {
     @Test
     void 회원가입_성공() {
         //given
-        Member member = createMember("memberName");
+        MemberDto memberDto = createMemberDto("memberName");
 
         //when
-        Long savedMemberId= memberService.join(member);
+        Long savedMemberId= memberService.join(memberDto);
 
         //then
         Optional<Member> foundMember = memoryMemberRepository.findById(savedMemberId);
@@ -45,8 +46,8 @@ class MemberServiceTest {
     @Test
     void 회원가입_중복회원_예외발생() {
         //given
-        Member member1 = createMember("NAME1");;
-        Member member2 = createMember("NAME1");
+        MemberDto member1 = createMemberDto("NAME1");;
+        MemberDto member2 = createMemberDto("NAME1");
         memberService.join(member1);
 
         //when & then
@@ -58,10 +59,10 @@ class MemberServiceTest {
     @Test
     void 전체회원_조회() {
         //given
-        Member member1 = createMember("NAME1");;
+        MemberDto member1 = createMemberDto("NAME1");;
         memberService.join(member1);
 
-        Member member2 = createMember("NAME2");
+        MemberDto member2 = createMemberDto("NAME2");
         memberService.join(member2);
 
         //when
@@ -78,8 +79,8 @@ class MemberServiceTest {
     @Test
     void 회원_단건_조회() {
         //given
-        Member member = createMember("user1");
-        Long savedId = memberService.join(member);
+        MemberDto memberDto = createMemberDto("user1");
+        Long savedId = memberService.join(memberDto);
 
         //when
         Optional<Member> foundMember = memberService.findMemberById(savedId);
@@ -88,12 +89,12 @@ class MemberServiceTest {
         assertThat(foundMember)
                 .isPresent()
                 .get()
-                .isEqualTo(member);
+                .extracting(Member::getMemberName).isEqualTo("user1");
     }
 
-    private Member createMember(String memberName) {
-        Member member = new Member();
-        member.setMemberName(memberName);
-        return member;
+    private MemberDto createMemberDto(String memberName) {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setName(memberName);
+        return memberDto;
     }
 }

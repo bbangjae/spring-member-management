@@ -1,6 +1,7 @@
 package com.example.spring_member_management.service;
 
 import com.example.spring_member_management.domain.Member;
+import com.example.spring_member_management.dto.MemberDto;
 import com.example.spring_member_management.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,11 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public Long join(Member member) {
+    public Long join(MemberDto memberRequest) {
+        Member member = new Member(memberRequest.getName());
+
         validateDuplicateMemberName(member);
+
         return memberRepository.save(member).getMemberId();
     }
 
@@ -38,9 +42,8 @@ public class MemberService {
     }
 
     private void validateDuplicateMemberName(Member member) {
-        memberRepository.findByName(member.getMemberName())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원명입니다.");
-                });
+        if (memberRepository.findByName(member.getMemberName()).isPresent()) {
+            throw new IllegalStateException("이미 존재하는 회원명입니다.");
+        }
     }
 }

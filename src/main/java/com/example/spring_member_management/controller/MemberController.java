@@ -23,7 +23,9 @@ public class MemberController {
     @GetMapping("/members")
     public String listMembers(Model model) {
         List<Member> members = memberService.findAllMembers();
+
         model.addAttribute("members", members);
+
         return "members/member-list";
     }
 
@@ -34,9 +36,8 @@ public class MemberController {
 
     @PostMapping("/members/new")
     public String createMember(MemberDto memberRequest) {
-        Member member = new Member();
-        member.setMemberName(memberRequest.getName());
-        memberService.join(member);
+        memberService.join(memberRequest);
+
         return "redirect:/";
     }
 }
