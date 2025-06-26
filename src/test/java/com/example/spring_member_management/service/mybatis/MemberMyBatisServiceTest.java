@@ -1,6 +1,7 @@
 package com.example.spring_member_management.service.mybatis;
 
 import com.example.spring_member_management.domain.Member;
+import com.example.spring_member_management.dto.MemberDto;
 import com.example.spring_member_management.mapper.MemberMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +24,25 @@ class MemberMyBatisServiceTest {
     @Test
     void 회원가입_성공() {
         //given
-        Member member = createMember("memberName");
+        MemberDto memberDto = createMemberDto("memberName");
 
         //when
-        Long savedMemberId = memberMyBatisService.join(member);
+        Long savedMemberId = memberMyBatisService.join(memberDto);
 
         //then
         Optional<Member> foundMember = memberMapper.findById(savedMemberId);
-        assertThat(foundMember).isPresent()
-                .get().extracting(Member::getMemberName).isEqualTo("memberName");
+        assertThat(foundMember)
+                .isPresent()
+                .get()
+                .extracting(Member::getMemberName)
+                .isEqualTo("memberName");
     }
 
     @Test
     void 회원가입_중복회원_예외발생() {
         //given
-        Member member1 = createMember("NAME1");;
-        Member member2 = createMember("NAME1");
+        MemberDto member1 = createMemberDto("NAME1");;
+        MemberDto member2 = createMemberDto("NAME1");
         memberMyBatisService.join(member1);
 
         //when & then
@@ -50,8 +54,8 @@ class MemberMyBatisServiceTest {
     @Test
     void 전체회원_조회() {
         //given
-        memberMyBatisService.join(createMember("NAME1"));
-        memberMyBatisService.join(createMember("NAME2"));
+        memberMyBatisService.join(createMemberDto("NAME1"));
+        memberMyBatisService.join(createMemberDto("NAME2"));
 
         //when
         List<Member> members = memberMyBatisService.findAllMembers();
@@ -67,8 +71,8 @@ class MemberMyBatisServiceTest {
     @Test
     void 회원_단건_조회() {
         //given
-        Member member = createMember("NAME1");
-        Long savedId = memberMyBatisService.join(member);
+        MemberDto memberDto = createMemberDto("NAME1");
+        Long savedId = memberMyBatisService.join(memberDto);
 
         //when
         Optional<Member> foundMember = memberMyBatisService.findMemberById(savedId);
@@ -82,9 +86,9 @@ class MemberMyBatisServiceTest {
                 });
     }
 
-    private Member createMember(String memberName) {
-        Member member = new Member();
-        member.setMemberName(memberName);
-        return member;
+    private MemberDto createMemberDto(String memberName) {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setName(memberName);
+        return memberDto;
     }
 }
