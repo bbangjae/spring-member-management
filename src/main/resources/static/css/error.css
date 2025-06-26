@@ -1,0 +1,51 @@
+/* === 에러 페이지 전용 스타일 === */
+.error-container {
+    text-align: center;
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    border: 2px solid #ffbdbd;
+    background: #fff6f6;
+    border-radius: 1.2rem;
+    box-shadow: 0 8px 24px rgba(255,0,0,0.08);
+    margin: 80px auto 0 auto;
+}
+
+.error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #ff4d4f;
+}
+
+.error-title {
+    color: #ff4d4f;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: #b71c1c;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+}
+
+.error-status {
+    color: #888;
+    font-size: 0.98rem;
+    margin-bottom: 2rem;
+}
+
+/* === 버튼/버튼 그룹 === */
+.btn-custom {
+    background-color: #ff4d4f;
+    color: white;
+}
+.btn-custom:hover {
+    background-color: #e04344;
+}
+.btn-primary {
+    background-color: #4a90e2;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #3a78c2;
+}
