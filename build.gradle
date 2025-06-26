@@ -18,13 +18,20 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot의 Thymeleaf 템플릿 엔진 starter
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// Spring Web MVC starter
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// MyBatis 연동을 위한 starter
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 
+	// 테스트 관련 라이브러리
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// H2 데이터베이스
 	runtimeOnly 'com.h2database:h2'
 }
 
