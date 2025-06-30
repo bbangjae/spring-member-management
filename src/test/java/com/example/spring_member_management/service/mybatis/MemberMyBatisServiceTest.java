@@ -1,7 +1,8 @@
 package com.example.spring_member_management.service.mybatis;
 
 import com.example.spring_member_management.domain.Member;
-import com.example.spring_member_management.dto.MemberDto;
+import com.example.spring_member_management.dto.MemberRequestDto;
+import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.mapper.MemberMapper;
 import org.junit.jupiter.api.Test;
@@ -25,13 +26,13 @@ class MemberMyBatisServiceTest {
     @Test
     void 회원가입_성공() {
         //given
-        MemberDto memberDto = createMemberDto("memberName");
+        MemberRequestDto memberDto = createMemberDto("memberName");
 
         //when
         Long savedMemberId = memberMyBatisService.join(memberDto);
+        Optional<Member> foundMember = memberMapper.findById(savedMemberId);
 
         //then
-        Optional<Member> foundMember = memberMapper.findById(savedMemberId);
         assertThat(foundMember)
                 .isPresent()
                 .get()
@@ -42,8 +43,8 @@ class MemberMyBatisServiceTest {
     @Test
     void 회원가입_중복회원_예외발생() {
         //given
-        MemberDto member1 = createMemberDto("NAME1");;
-        MemberDto member2 = createMemberDto("NAME1");
+        MemberRequestDto member1 = createMemberDto("NAME1");;
+        MemberRequestDto member2 = createMemberDto("NAME1");
         memberMyBatisService.join(member1);
 
         //when & then
@@ -55,16 +56,23 @@ class MemberMyBatisServiceTest {
     @Test
     void 전체회원_조회() {
         //given
-        memberMyBatisService.join(createMemberDto("NAME1"));
-        memberMyBatisService.join(createMemberDto("NAME2"));
+        MemberRequestDto member1 = createMemberDto("NAME1");;
+        Long savedId1 =memberMyBatisService.join(member1);
+
+        MemberRequestDto member2 = createMemberDto("NAME2");
+        Long savedId2 = memberMyBatisService.join(member2);
 
         //when
-        List<Member> members = memberMyBatisService.findAllMembers();
+        List<MemberResponseDto> members = memberMyBatisService.findAllMembers();
 
         //then
         assertThat(members)
                 .hasSize(2)
-                .extracting(Member::getMemberName)
+                .extracting(MemberResponseDto::getMemberId)
+                .containsExactlyInAnyOrder(savedId1, savedId2);
+
+        assertThat(members)
+                .extracting(MemberResponseDto::getMemberName)
                 .containsExactlyInAnyOrder("NAME1", "NAME2");
     }
 
@@ -72,24 +80,21 @@ class MemberMyBatisServiceTest {
     @Test
     void 회원_단건_조회() {
         //given
-        MemberDto memberDto = createMemberDto("NAME1");
+        MemberRequestDto memberDto = createMemberDto("NAME1");
         Long savedId = memberMyBatisService.join(memberDto);
 
         //when
-        Optional<Member> foundMember = memberMyBatisService.findMemberById(savedId);
+        MemberResponseDto foundMember = memberMyBatisService.findMemberById(savedId);
 
         //then
-        assertThat(foundMember)
-                .isPresent()
-                .hasValueSatisfying(m -> {
-                    assertThat(m.getMemberId()).isEqualTo(savedId);
-                    assertThat(m.getMemberName()).isEqualTo("NAME1");
-                });
+        assertThat(foundMember).isNotNull();
+        assertThat(foundMember.getMemberName()).isEqualTo("NAME1");
+        assertThat(foundMember.getMemberId()).isEqualTo(savedId);
     }
 
-    private MemberDto createMemberDto(String memberName) {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setName(memberName);
-        return memberDto;
+    private MemberRequestDto createMemberDto(String memberName) {
+        return MemberRequestDto.builder()
+                .memberName(memberName)
+                .build();
     }
 }
