@@ -1,7 +1,7 @@
 package com.example.spring_member_management.controller;
 
-import com.example.spring_member_management.domain.Member;
-import com.example.spring_member_management.dto.MemberDto;
+import com.example.spring_member_management.dto.MemberRequestDto;
+import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class MemberController {
 
     @GetMapping("/members")
     public String listMembers(Model model) {
-        List<Member> members = memberService.findAllMembers();
+        List<MemberResponseDto> members = memberService.findAllMembers();
 
         model.addAttribute("members", members);
 
@@ -35,7 +35,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String createMember(MemberDto memberRequest) {
+    public String createMember(MemberRequestDto memberRequest) {
         memberService.join(memberRequest);
 
         return "redirect:/";
