@@ -1,7 +1,8 @@
 package com.example.spring_member_management.service;
 
 import com.example.spring_member_management.domain.Member;
-import com.example.spring_member_management.dto.MemberDto;
+import com.example.spring_member_management.dto.MemberRequestDto;
+import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -20,35 +21,38 @@ class MemberServiceTest {
     MemoryMemberRepository memoryMemberRepository;
 
     @BeforeEach
-    void BeforeEach() {
+    void beforeEach() {
         this.memoryMemberRepository = new MemoryMemberRepository();
         this.memberService = new MemberService(memoryMemberRepository);
     }
 
     @AfterEach
-    void AfterEach() {
+    void afterEach() {
         memoryMemberRepository.clearStore();
     }
 
     @Test
     void 회원가입_성공() {
         //given
-        MemberDto memberDto = createMemberDto("memberName");
+        MemberRequestDto memberRequestDto = createMemberDto("memberName");
 
         //when
-        Long savedMemberId= memberService.join(memberDto);
+        Long savedMemberId = memberService.join(memberRequestDto);
+        Optional<Member> foundMember = memoryMemberRepository.findById(savedMemberId);
 
         //then
-        Optional<Member> foundMember = memoryMemberRepository.findById(savedMemberId);
-        assertThat(foundMember).isPresent()
-                .get().extracting(Member::getMemberName).isEqualTo("memberName");
+        assertThat(foundMember)
+                .isPresent()
+                .get()
+                .extracting(Member::getMemberName)
+                .isEqualTo("memberName");
     }
 
     @Test
     void 회원가입_중복회원_예외발생() {
         //given
-        MemberDto member1 = createMemberDto("NAME1");;
-        MemberDto member2 = createMemberDto("NAME1");
+        MemberRequestDto member1 = createMemberDto("NAME1");
+        MemberRequestDto member2 = createMemberDto("NAME1");
         memberService.join(member1);
 
         //when & then
@@ -60,19 +64,23 @@ class MemberServiceTest {
     @Test
     void 전체회원_조회() {
         //given
-        MemberDto member1 = createMemberDto("NAME1");;
-        memberService.join(member1);
+        MemberRequestDto member1 = createMemberDto("NAME1");;
+        Long savedId1 =memberService.join(member1);
 
-        MemberDto member2 = createMemberDto("NAME2");
-        memberService.join(member2);
+        MemberRequestDto member2 = createMemberDto("NAME2");
+        Long savedId2 = memberService.join(member2);
 
         //when
-        List<Member> members = memberService.findAllMembers();
+        List<MemberResponseDto> members = memberService.findAllMembers();
 
         //then
         assertThat(members)
                 .hasSize(2)
-                .extracting(Member::getMemberName)
+                .extracting(MemberResponseDto::getMemberId)
+                .containsExactlyInAnyOrder(savedId1, savedId2);
+
+        assertThat(members)
+                .extracting(MemberResponseDto::getMemberName)
                 .containsExactlyInAnyOrder("NAME1", "NAME2");
     }
 
@@ -80,22 +88,21 @@ class MemberServiceTest {
     @Test
     void 회원_단건_조회() {
         //given
-        MemberDto memberDto = createMemberDto("user1");
-        Long savedId = memberService.join(memberDto);
+        MemberRequestDto memberRequestDto = createMemberDto("user1");
+        Long savedId = memberService.join(memberRequestDto);
 
         //when
-        Optional<Member> foundMember = memberService.findMemberById(savedId);
+        MemberResponseDto foundMember = memberService.findMemberById(savedId);
 
         //then
-        assertThat(foundMember)
-                .isPresent()
-                .get()
-                .extracting(Member::getMemberName).isEqualTo("user1");
+        assertThat(foundMember).isNotNull();
+        assertThat(foundMember.getMemberId()).isEqualTo(savedId);
+        assertThat(foundMember.getMemberName()).isEqualTo("user1");
     }
 
-    private MemberDto createMemberDto(String memberName) {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setName(memberName);
-        return memberDto;
+    private MemberRequestDto createMemberDto(String memberName) {
+        return MemberRequestDto.builder()
+                .memberName(memberName)
+                .build();
     }
 }
