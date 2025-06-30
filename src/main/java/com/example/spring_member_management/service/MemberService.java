@@ -1,7 +1,8 @@
 package com.example.spring_member_management.service;
 
 import com.example.spring_member_management.domain.Member;
-import com.example.spring_member_management.dto.MemberDto;
+import com.example.spring_member_management.dto.MemberRequestDto;
+import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public Long join(MemberDto memberRequest) {
-        Member member = new Member(memberRequest.getName());
+    public Long join(MemberRequestDto memberRequest) {
+        Member member = new Member(memberRequest.getMemberName());
 
         validateDuplicateMemberName(member);
 
@@ -31,15 +32,25 @@ public class MemberService {
     /**
      * 회원 ID로 회원 조회
      */
-    public Optional<Member> findMemberById(Long memberId) {
-        return memberRepository.findById(memberId);
+    public MemberResponseDto findMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .map(member -> MemberResponseDto.builder()
+                        .memberId(member.getMemberId())
+                        .memberName(member.getMemberName())
+                        .build())
+                .orElse(null);
     }
 
     /**
      * 전체 회원 목록 조회
      */
-    public List<Member> findAllMembers() {
-        return memberRepository.findAll();
+    public List<MemberResponseDto> findAllMembers() {
+        return memberRepository.findAll().stream()
+                .map(member -> MemberResponseDto.builder()
+                        .memberId(member.getMemberId())
+                        .memberName(member.getMemberName())
+                        .build())
+                .toList();
     }
 
     private void validateDuplicateMemberName(Member member) {
