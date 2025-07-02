@@ -15,10 +15,10 @@
 <div class="container">
     <div class="form-title">새로운 회원 등록</div>
     <div class="form-desc">간단한 정보를 입력해 회원으로 등록하세요</div>
-    <form action="/members/new" method="post">
+    <form id="memberForm">
         <div class="mb-3">
-            <label for="name" class="form-label">이름</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요" required>
+            <label for="memberName" class="form-label">이름</label>
+            <input type="text" class="form-control" id="memberName" name="memberName" placeholder="이름을 입력하세요." required>
         </div>
         <div class="btn-register">
             <button type="submit" class="btn btn-primary">등록하기</button>
@@ -27,5 +27,7 @@
 </div>
 <!-- Bootstrap JS (Optional) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS 분리 -->
+<script src="/js/members/create-member-form.js"></script>
 </body>
 </html>
