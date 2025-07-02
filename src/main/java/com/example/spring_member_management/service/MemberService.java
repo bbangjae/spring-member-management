@@ -3,12 +3,12 @@ package com.example.spring_member_management.service;
 import com.example.spring_member_management.domain.Member;
 import com.example.spring_member_management.dto.MemberRequestDto;
 import com.example.spring_member_management.dto.MemberResponseDto;
+import com.example.spring_member_management.exception.BaseResponseCode;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -55,7 +55,7 @@ public class MemberService {
 
     private void validateDuplicateMemberName(Member member) {
         if (memberRepository.findByName(member.getMemberName()).isPresent()) {
-            throw new DuplicateMemberNameException("이미 존재하는 회원명입니다.");
+            throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_MEMBER_NAME);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.spring_member_management.service.mybatis;
 import com.example.spring_member_management.domain.Member;
 import com.example.spring_member_management.dto.MemberRequestDto;
 import com.example.spring_member_management.dto.MemberResponseDto;
+import com.example.spring_member_management.exception.BaseResponseCode;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MemberMyBatisService {
@@ -62,7 +62,7 @@ public class MemberMyBatisService {
 
     private void validateDuplicateMemberName(Member member) {
         if (memberMapper.findByName(member.getMemberName()).isPresent()) {
-            throw new DuplicateMemberNameException("이미 존재하는 회원명입니다.");
+            throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_MEMBER_NAME);
         }
     }
 }
