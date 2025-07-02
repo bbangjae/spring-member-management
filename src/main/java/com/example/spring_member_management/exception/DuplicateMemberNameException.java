@@ -1,7 +1,13 @@
 package com.example.spring_member_management.exception;
 
+import lombok.Getter;
+
+@Getter
 public class DuplicateMemberNameException extends RuntimeException {
-    public DuplicateMemberNameException(String message) {
-        super(message);
+    private final BaseResponseCode errorCode;
+
+    public DuplicateMemberNameException(BaseResponseCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 }
