@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/members")
-@RequiredArgsConstructor
 public class MemberViewController {
-
-    private final MemberService memberService;
 
     @GetMapping
     public String showMemberListPage() {
