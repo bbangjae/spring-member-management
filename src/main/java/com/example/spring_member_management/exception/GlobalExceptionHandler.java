@@ -1,16 +1,16 @@
 package com.example.spring_member_management.exception;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import com.example.spring_member_management.common.BaseResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateMemberNameException.class)
-    public ModelAndView handleDuplicateMemberName(DuplicateMemberNameException e, Model model) {
-        model.addAttribute("errorMessage", e.getMessage());
-        return new ModelAndView("error/duplicate-member-name", model.asMap());
+    public ResponseEntity<BaseResponse<Void>> handleDuplicateMemberName(DuplicateMemberNameException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(BaseResponse.failure(e.getErrorCode()));
     }
 }
