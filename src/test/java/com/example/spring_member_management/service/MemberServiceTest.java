@@ -64,7 +64,7 @@ class MemberServiceTest {
     @Test
     void 전체회원_조회() {
         //given
-        MemberRequestDto member1 = createMemberDto("NAME1");;
+        MemberRequestDto member1 = createMemberDto("NAME1");
         Long savedId1 = memberService.createMember(member1);
 
         MemberRequestDto member2 = createMemberDto("NAME2");
