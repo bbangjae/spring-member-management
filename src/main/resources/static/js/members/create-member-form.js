@@ -16,14 +16,14 @@ function getErrorMessage(responseBody, status) {
 async function registerMember(memberName) {
     try {
         const response = await fetch('/api/members', getFetchOptions({ memberName }));
-        const responseBody = await response.json();
 
-        if (response.ok && responseBody.success) {
+        if (response.status === 204) {
             alert('회원 등록 성공!');
             window.location.href = '/';
             return;
         }
 
+        const responseBody = await response.json();
         const msg = encodeURIComponent(getErrorMessage(responseBody, response.status));
         window.location.href = `/error/common?msg=${msg}`;
     } catch (error) {
