@@ -21,7 +21,7 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public Long join(MemberRequestDto memberRequest) {
+    public Long createMember(MemberRequestDto memberRequest) {
         Member member = new Member(memberRequest.getMemberName());
 
         validateUniqueMemberName(member.getMemberName());
@@ -39,12 +39,13 @@ public class MemberService {
                         .memberName(member.getMemberName())
                         .build())
                 .orElse(null);
+    public MemberResponseDto getMemberById(Long memberId) {
     }
 
     /**
      * 전체 회원 목록 조회
      */
-    public List<MemberResponseDto> findAllMembers() {
+    public List<MemberResponseDto> getAllMembers() {
         return memberRepository.findAll().stream()
                 .map(member -> MemberResponseDto.builder()
                         .memberId(member.getMemberId())
