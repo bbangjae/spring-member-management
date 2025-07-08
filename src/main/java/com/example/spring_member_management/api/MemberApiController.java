@@ -18,14 +18,28 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<BaseResponse<List<MemberResponseDto>>> listMembers() {
-        List<MemberResponseDto> members = memberService.findAllMembers();
+    public ResponseEntity<BaseResponse<List<MemberResponseDto>>> getAllMembers() {
+        List<MemberResponseDto> members = memberService.getAllMembers();
         return ResponseEntity.ok(BaseResponse.success(members));
     }
 
     @PostMapping
-    public ResponseEntity<BaseResponse<Void>> createMember(@RequestBody MemberRequestDto request) {
-        memberService.join(request);
-        return ResponseEntity.ok(BaseResponse.success(null));
+    public ResponseEntity<Void> createMember(@RequestBody MemberRequestDto request) {
+        memberService.createMember(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{memberId}")
+    public ResponseEntity<Void> updateMemberName(
+            @PathVariable Long memberId,
+            @RequestBody MemberRequestDto request) {
+        memberService.updateMemberNameById(memberId, request.getMemberName());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {
+        memberService.deleteMemberById(memberId);
+        return ResponseEntity.noContent().build();
     }
 }
