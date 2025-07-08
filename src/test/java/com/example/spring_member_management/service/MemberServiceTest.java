@@ -4,6 +4,7 @@ import com.example.spring_member_management.domain.Member;
 import com.example.spring_member_management.dto.MemberRequestDto;
 import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
+import com.example.spring_member_management.exception.MemberNotFoundException;
 import com.example.spring_member_management.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +85,6 @@ class MemberServiceTest {
                 .containsExactlyInAnyOrder("NAME1", "NAME2");
     }
 
-    // 추가 테스트 케이스
     @Test
     void 회원_단건_조회() {
         //given
@@ -98,6 +98,49 @@ class MemberServiceTest {
         assertThat(foundMember).isNotNull();
         assertThat(foundMember.getMemberId()).isEqualTo(savedId);
         assertThat(foundMember.getMemberName()).isEqualTo("user1");
+    }
+
+    @Test
+    void 회원_이름_변경() {
+        //given
+        MemberRequestDto memberDto = createMemberDto("NAME1");
+        Long savedId = memberService.createMember(memberDto);
+
+        //when
+        memberService.updateMemberNameById(savedId, "NEW_NAME");
+
+        //then
+        assertThat(memberService.getMemberById(savedId).getMemberName())
+                .isEqualTo("NEW_NAME");
+    }
+
+    @Test
+    void 회원_이름_변경시_중복() {
+        //given
+        MemberRequestDto existingMemberDto = createMemberDto("NAME1");
+        MemberRequestDto newMemberDto = createMemberDto("NAME2");
+        memberService.createMember(existingMemberDto);
+        Long savedNewMemberId = memberService.createMember(newMemberDto);
+
+        //when & then
+        assertThrows(DuplicateMemberNameException.class,
+                () -> memberService.updateMemberNameById(savedNewMemberId, "NAME1"),
+                "이미 존재하는 회원명입니다.");
+    }
+
+    @Test
+    void 회원_삭제_성공() {
+        //given
+        MemberRequestDto memberDto = createMemberDto("NAME1");
+        Long savedId = memberService.createMember(memberDto);
+
+        //when
+        memberService.deleteMemberById(savedId);
+
+        //then
+        assertThrows(MemberNotFoundException.class,
+                () -> memberService.getMemberById(savedId),
+                "데이터 없음");
     }
 
     private MemberRequestDto createMemberDto(String memberName) {
