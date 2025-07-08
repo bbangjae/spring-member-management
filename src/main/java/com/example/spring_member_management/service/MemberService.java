@@ -24,7 +24,7 @@ public class MemberService {
     public Long join(MemberRequestDto memberRequest) {
         Member member = new Member(memberRequest.getMemberName());
 
-        validateDuplicateMemberName(member);
+        validateUniqueMemberName(member.getMemberName());
 
         return memberRepository.save(member).getMemberId();
     }
