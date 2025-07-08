@@ -36,6 +36,11 @@ public class MemoryMemberRepository implements MemberRepository {
         return new ArrayList<>(memberStore.values());
     }
 
+    @Override
+    public void deleteById(Long memberId) {
+        memberStore.remove(memberId);
+    }
+
     public void clearStore() {
         memberStore.clear();
     }

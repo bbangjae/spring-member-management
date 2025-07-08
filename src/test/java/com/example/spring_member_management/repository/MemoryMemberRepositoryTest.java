@@ -20,7 +20,7 @@ public class MemoryMemberRepositoryTest {
     @Test
     void save() {
         //given
-        Member member = new Member("SAVE TEST");
+        Member member = new Member(1L, "SAVE TEST");
 
         // when
         Member saveMember = memoryMemberRepository.save(member);
@@ -60,10 +60,10 @@ public class MemoryMemberRepositoryTest {
     @Test
     void findAll() {
         //given
-        Member member = new Member("NAME");
+        Member member = new Member(1L, "NAME");
         memoryMemberRepository.save(member);
 
-        Member member2 = new Member("NAME2");
+        Member member2 = new Member(2L, "NAME2");
         memoryMemberRepository.save(member2);
 
         // when
