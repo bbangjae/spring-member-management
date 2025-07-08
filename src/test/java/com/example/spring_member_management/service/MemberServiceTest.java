@@ -37,7 +37,7 @@ class MemberServiceTest {
         MemberRequestDto memberRequestDto = createMemberDto("memberName");
 
         //when
-        Long savedMemberId = memberService.join(memberRequestDto);
+        Long savedMemberId = memberService.createMember(memberRequestDto);
         Optional<Member> foundMember = memoryMemberRepository.findById(savedMemberId);
 
         //then
@@ -53,11 +53,11 @@ class MemberServiceTest {
         //given
         MemberRequestDto member1 = createMemberDto("NAME1");
         MemberRequestDto member2 = createMemberDto("NAME1");
-        memberService.join(member1);
+        memberService.createMember(member1);
 
         //when & then
         assertThrows(DuplicateMemberNameException.class,
-                () -> memberService.join(member2),
+                () -> memberService.createMember(member2),
                 "이미 존재하는 회원명입니다.");
     }
 
@@ -65,13 +65,13 @@ class MemberServiceTest {
     void 전체회원_조회() {
         //given
         MemberRequestDto member1 = createMemberDto("NAME1");;
-        Long savedId1 =memberService.join(member1);
+        Long savedId1 = memberService.createMember(member1);
 
         MemberRequestDto member2 = createMemberDto("NAME2");
-        Long savedId2 = memberService.join(member2);
+        Long savedId2 = memberService.createMember(member2);
 
         //when
-        List<MemberResponseDto> members = memberService.findAllMembers();
+        List<MemberResponseDto> members = memberService.getAllMembers();
 
         //then
         assertThat(members)
@@ -89,10 +89,10 @@ class MemberServiceTest {
     void 회원_단건_조회() {
         //given
         MemberRequestDto memberRequestDto = createMemberDto("user1");
-        Long savedId = memberService.join(memberRequestDto);
+        Long savedId = memberService.createMember(memberRequestDto);
 
         //when
-        MemberResponseDto foundMember = memberService.findMemberById(savedId);
+        MemberResponseDto foundMember = memberService.getMemberById(savedId);
 
         //then
         assertThat(foundMember).isNotNull();
