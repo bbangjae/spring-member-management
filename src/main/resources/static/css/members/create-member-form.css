@@ -7,7 +7,12 @@
     margin-bottom: 1.7rem;
 }
 .btn-primary {
-    width: 100%;
+    width: 70%;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.btn-secondary {
+    width: 30%;
     font-weight: 600;
     letter-spacing: 1px;
 }
