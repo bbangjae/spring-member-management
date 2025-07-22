@@ -25,7 +25,7 @@ public class MemberMyBatisService {
      * 회원가입
      */
     @Transactional
-    public Long join(MemberRequestDto memberRequest) {
+    public Long createMember(MemberRequestDto memberRequest) {
         Member member = new Member(memberRequest.getMemberName());
 
         validateDuplicateMemberName(member);
@@ -38,7 +38,7 @@ public class MemberMyBatisService {
     /**
      * 회원 ID로 회원 조회
      */
-    public MemberResponseDto findMemberById(Long memberId) {
+    public MemberResponseDto getMemberById(Long memberId) {
         return memberMapper.findById(memberId)
                 .map(member -> MemberResponseDto.builder()
                         .memberId(member.getMemberId())
@@ -50,7 +50,7 @@ public class MemberMyBatisService {
     /**
      * 전체 회원 목록 조회
      */
-    public List<MemberResponseDto> findAllMembers() {
+    public List<MemberResponseDto> getAllMembers() {
         return memberMapper.findAll()
                 .stream()
                 .map(member -> MemberResponseDto.builder()
