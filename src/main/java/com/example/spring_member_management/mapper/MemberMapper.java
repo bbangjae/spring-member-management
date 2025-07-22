@@ -14,23 +14,11 @@ public interface MemberMapper {
     void save(Member member);
 
     @Select("SELECT member_id, member_name FROM member WHERE member_id = #{memberId}")
-    @Results({
-            @Result(property = "memberId", column = "member_id"),
-            @Result(property = "memberName", column = "member_name")
-    })
     Optional<Member> findById(@Param("memberId") Long id);
 
     @Select("SELECT member_id, member_name FROM member WHERE member_name = #{memberName}")
-    @Results({
-            @Result(property = "memberId", column = "member_id"),
-            @Result(property = "memberName", column = "member_name")
-    })
     Optional<Member> findByName(@Param("memberName") String name);
 
     @Select("SELECT member_id, member_name FROM member")
-    @Results({
-            @Result(property = "memberId", column = "member_id"),
-            @Result(property = "memberName", column = "member_name")
-    })
     List<Member> findAll();
 }
