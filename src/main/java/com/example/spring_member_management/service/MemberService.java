@@ -85,9 +85,7 @@ public class MemberService {
     }
 
     private Member findMemberById(Long memberId) {
-        if (memberRepository.findById(memberId).isEmpty()) {
-            throw new MemberNotFoundException(BaseResponseCode.DATA_NOT_FOUND);
-        }
-        return memberRepository.findById(memberId).get();
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(BaseResponseCode.DATA_NOT_FOUND));
     }
 }
