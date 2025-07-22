@@ -92,6 +92,34 @@ class MemberMyBatisServiceTest {
         assertThat(foundMember.getMemberId()).isEqualTo(savedId);
     }
 
+    @Test
+    void 회원이름_업데이트_성공() {
+        //given
+        MemberRequestDto memberDto = createMemberDto("NAME1");
+        Long savedId = memberMyBatisService.createMember(memberDto);
+
+        //when
+        memberMyBatisService.updateMemberNameById(savedId, "NAME2");
+
+        //then
+        Member updatedMember = memberMapper.findById(savedId).orElseThrow();
+        assertThat(updatedMember.getMemberName()).isEqualTo("NAME2");
+    }
+
+    @Test
+    void 회원이름_업데이트_실패_동일이름() {
+        //given
+        MemberRequestDto memberDto = createMemberDto("NAME1");
+        MemberRequestDto memberDto2 = createMemberDto("NAME2");
+        Long savedId = memberMyBatisService.createMember(memberDto);
+        memberMyBatisService.createMember(memberDto2);
+
+        //when & then
+        assertThrows(DuplicateMemberNameException.class,
+                () -> memberMyBatisService.updateMemberNameById(savedId, "NAME2"),
+                "이미 존재하는 회원명입니다.");
+    }
+
     private MemberRequestDto createMemberDto(String memberName) {
         return MemberRequestDto.builder()
                 .memberName(memberName)
