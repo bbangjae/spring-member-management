@@ -29,7 +29,7 @@ class MemberMyBatisServiceTest {
         MemberRequestDto memberDto = createMemberDto("memberName");
 
         //when
-        Long savedMemberId = memberMyBatisService.join(memberDto);
+        Long savedMemberId = memberMyBatisService.createMember(memberDto);
         Optional<Member> foundMember = memberMapper.findById(savedMemberId);
 
         //then
@@ -45,11 +45,11 @@ class MemberMyBatisServiceTest {
         //given
         MemberRequestDto member1 = createMemberDto("NAME1");;
         MemberRequestDto member2 = createMemberDto("NAME1");
-        memberMyBatisService.join(member1);
+        memberMyBatisService.createMember(member1);
 
         //when & then
         assertThrows(DuplicateMemberNameException.class,
-                () -> memberMyBatisService.join(member2),
+                () -> memberMyBatisService.createMember(member2),
                 "이미 존재하는 회원명입니다.");
     }
 
@@ -57,13 +57,13 @@ class MemberMyBatisServiceTest {
     void 전체회원_조회() {
         //given
         MemberRequestDto member1 = createMemberDto("NAME1");;
-        Long savedId1 =memberMyBatisService.join(member1);
+        Long savedId1 =memberMyBatisService.createMember(member1);
 
         MemberRequestDto member2 = createMemberDto("NAME2");
-        Long savedId2 = memberMyBatisService.join(member2);
+        Long savedId2 = memberMyBatisService.createMember(member2);
 
         //when
-        List<MemberResponseDto> members = memberMyBatisService.findAllMembers();
+        List<MemberResponseDto> members = memberMyBatisService.getAllMembers();
 
         //then
         assertThat(members)
@@ -81,10 +81,10 @@ class MemberMyBatisServiceTest {
     void 회원_단건_조회() {
         //given
         MemberRequestDto memberDto = createMemberDto("NAME1");
-        Long savedId = memberMyBatisService.join(memberDto);
+        Long savedId = memberMyBatisService.createMember(memberDto);
 
         //when
-        MemberResponseDto foundMember = memberMyBatisService.findMemberById(savedId);
+        MemberResponseDto foundMember = memberMyBatisService.getMemberById(savedId);
 
         //then
         assertThat(foundMember).isNotNull();
