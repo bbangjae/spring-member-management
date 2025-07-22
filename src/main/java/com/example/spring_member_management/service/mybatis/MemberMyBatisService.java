@@ -5,21 +5,19 @@ import com.example.spring_member_management.dto.MemberRequestDto;
 import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.exception.BaseResponseCode;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
+import com.example.spring_member_management.exception.MemberNotFoundException;
 import com.example.spring_member_management.mapper.MemberMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberMyBatisService {
     private final MemberMapper memberMapper;
-
-    @Autowired
-    public MemberMyBatisService(MemberMapper memberMapper) {
-        this.memberMapper = memberMapper;
-    }
 
     /**
      * 회원가입
@@ -28,7 +26,7 @@ public class MemberMyBatisService {
     public Long createMember(MemberRequestDto memberRequest) {
         Member member = new Member(memberRequest.getMemberName());
 
-        validateDuplicateMemberName(member);
+        validateUniqueMemberName(member.getMemberName());
 
         memberMapper.save(member);
 
@@ -60,9 +58,28 @@ public class MemberMyBatisService {
                 .toList();
     }
 
-    private void validateDuplicateMemberName(Member member) {
-        if (memberMapper.findByName(member.getMemberName()).isPresent()) {
+    /**
+     * 회원 이름 변경
+     */
+    @Transactional
+    public void updateMemberNameById(Long memberId, String newName) {
+        Member member = findMemberById(memberId);
+
+        if (!member.getMemberName().equals(newName)) {
+            validateUniqueMemberName(newName);
+        }
+
+        memberMapper.updateMemberName(newName,  memberId);
+    }
+
+    private void validateUniqueMemberName(String memberName) {
+        if (memberMapper.findByName(memberName).isPresent()) {
             throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_MEMBER_NAME);
         }
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberMapper.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(BaseResponseCode.DATA_NOT_FOUND));
     }
 }
