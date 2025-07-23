@@ -69,7 +69,16 @@ public class MemberMyBatisService {
             validateUniqueMemberName(newName);
         }
 
-        memberMapper.updateMemberName(newName,  memberId);
+        memberMapper.updateNameById(newName,  memberId);
+    }
+
+    /**
+     * 회원 삭제
+     */
+    @Transactional
+    public void deleteMemberById(Long memberId) {
+        findMemberById(memberId);
+        memberMapper.deleteById(memberId);
     }
 
     private void validateUniqueMemberName(String memberName) {
