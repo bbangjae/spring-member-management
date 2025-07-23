@@ -72,6 +72,15 @@ public class MemberMyBatisService {
         memberMapper.updateNameById(newName,  memberId);
     }
 
+    /**
+     * 회원 삭제
+     */
+    @Transactional
+    public void deleteMemberById(Long memberId) {
+        findMemberById(memberId);
+        memberMapper.deleteById(memberId);
+    }
+
     private void validateUniqueMemberName(String memberName) {
         if (memberMapper.findByName(memberName).isPresent()) {
             throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_MEMBER_NAME);
