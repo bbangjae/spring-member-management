@@ -24,4 +24,5 @@ public interface MemberMapper {
 
     @Update("UPDATE member SET member_name = #{memberName} WHERE member_id = #{memberId}")
     void updateMemberName(@Param("memberName") String memberName, @Param("memberId")  Long memberId);
+    void updateNameById(@Param("memberName") String memberName, @Param("memberId")  Long memberId);
 }

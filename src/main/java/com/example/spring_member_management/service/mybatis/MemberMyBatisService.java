@@ -69,7 +69,7 @@ public class MemberMyBatisService {
             validateUniqueMemberName(newName);
         }
 
-        memberMapper.updateMemberName(newName,  memberId);
+        memberMapper.updateNameById(newName,  memberId);
     }
 
     private void validateUniqueMemberName(String memberName) {
