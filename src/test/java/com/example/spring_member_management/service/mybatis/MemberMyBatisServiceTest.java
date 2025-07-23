@@ -4,6 +4,7 @@ import com.example.spring_member_management.domain.Member;
 import com.example.spring_member_management.dto.MemberRequestDto;
 import com.example.spring_member_management.dto.MemberResponseDto;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
+import com.example.spring_member_management.exception.MemberNotFoundException;
 import com.example.spring_member_management.mapper.MemberMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -118,6 +119,33 @@ class MemberMyBatisServiceTest {
         assertThrows(DuplicateMemberNameException.class,
                 () -> memberMyBatisService.updateMemberNameById(savedId, "NAME2"),
                 "이미 존재하는 회원명입니다.");
+    }
+
+    @Test
+    void 회원이름_삭제_성공() {
+        //given
+        MemberRequestDto memberDto = createMemberDto("NAME1");
+        Long savedId = memberMyBatisService.createMember(memberDto);
+
+        //when
+        memberMyBatisService.deleteMemberById(savedId);
+
+        //then
+        Optional<Member> deletedMember = memberMapper.findById(savedId);
+        assertThat(deletedMember).isEmpty();
+    }
+
+    @Test
+    void 회원이름_삭제_실패_존재하지않는_ID() {
+        //given
+        MemberRequestDto memberDto = createMemberDto("NAME1");
+        Long savedId = memberMyBatisService.createMember(memberDto);
+
+        //when & then
+        assertThrows(MemberNotFoundException.class,
+                () -> memberMyBatisService.deleteMemberById(savedId + 1L),
+                "데이터 없음"
+        );
     }
 
     private MemberRequestDto createMemberDto(String memberName) {
