@@ -18,6 +18,9 @@ repositories {
 }
 
 dependencies {
+	// Spring Data JPA starter 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	// Spring Boot의 Thymeleaf 템플릿 엔진 starter
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
