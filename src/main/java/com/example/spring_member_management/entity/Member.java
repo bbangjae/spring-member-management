@@ -35,4 +35,12 @@ public class Member extends BaseEntity {
         this.name = memberName;
         this.address = address;
     }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void assignLocker(Locker locker) {
+        this.locker = locker;
+    }
 }
