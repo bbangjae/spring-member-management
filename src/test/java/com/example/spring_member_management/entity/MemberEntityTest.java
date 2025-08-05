@@ -31,4 +31,24 @@ public class MemberEntityTest {
         assertThat(foundMember.getName()).isEqualTo("jae");
         assertThat(foundMember.getAddress()).isEqualTo(address);
     }
+
+    @Test
+    void 멤버_락커_배정_성공() {
+        //given
+        Address address = new Address("서울", "신림", "1234");
+        Member member = new Member("jae", address);
+        Locker locker = new Locker("L1");
+        member.assignLocker(locker);
+
+        em.persist(locker);
+        em.persist(member);
+        em.flush();
+        em.clear();
+
+        //when
+        Member foundMember = em.find(Member.class, member.getId());
+
+        //then
+        assertThat(foundMember.getLocker()).isEqualTo(locker);
+    }
 }
