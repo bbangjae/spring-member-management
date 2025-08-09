@@ -2,6 +2,7 @@ package com.example.spring_member_management.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ public class Address {
     private String city;
     private String zipcode;
 
+    @Builder
     public Address(String street, String city, String zipcode) {
         this.street = street;
         this.city = city;

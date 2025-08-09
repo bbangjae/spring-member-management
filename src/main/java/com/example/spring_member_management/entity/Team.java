@@ -2,6 +2,7 @@ package com.example.spring_member_management.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ public class Team extends BaseEntity {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Member> members = new ArrayList<>();
 
+    @Builder
     public Team(String teamName) {
         this.name = teamName;
     }
