@@ -49,6 +49,6 @@ public class MemberEntityTest {
         Member foundMember = em.find(Member.class, member.getId());
 
         //then
-        assertThat(foundMember.getLocker()).isEqualTo(locker);
+        assertThat(foundMember.getLocker().getNumber()).isEqualTo("L1");
     }
 }
