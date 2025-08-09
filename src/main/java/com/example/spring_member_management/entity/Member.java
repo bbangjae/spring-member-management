@@ -1,10 +1,7 @@
 package com.example.spring_member_management.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
@@ -32,6 +29,7 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "locker_id", unique = true)
     private Locker locker;
 
+    @Builder
     public Member(String memberName, Address address) {
         this.name = memberName;
         this.address = address;

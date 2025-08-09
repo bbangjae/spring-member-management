@@ -2,6 +2,7 @@ package com.example.spring_member_management.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ public class Locker extends BaseEntity {
     @Column(name = "locker_number", unique = true)
     private String number;
 
+    @Builder
     public Locker(String lockerNumber) {
         this.number = lockerNumber;
     }
