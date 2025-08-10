@@ -18,7 +18,6 @@ public class Member extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
-    @Setter(AccessLevel.PROTECTED)
     private Team team;
 
     @Embedded
@@ -30,13 +29,27 @@ public class Member extends BaseEntity {
     private Locker locker;
 
     @Builder
-    public Member(String memberName, Address address) {
+    public Member(String memberName, Address address, Team team) {
         this.name = memberName;
         this.address = address;
+        if (team != null) {
+            changeTeam(team);
+        }
     }
 
     public void changeName(String name) {
         this.name = name;
+    }
+
+    public void changeTeam(Team team) {
+        if (this.team != null) {
+            this.team.getMembers().remove(this);
+        }
+
+        this.team = team;
+        if (team != null) {
+            team.getMembers().add(this);
+        }
     }
 
     public void assignLocker(Locker locker) {

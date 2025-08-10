@@ -18,7 +18,7 @@ public class BaseEntityTest {
     @Test
     void 생성시_생성일_생성자정보_성공() {
         //given
-        Member member = new Member("jae", new Address("서울", "신림", "1234"));
+        Member member = new Member("jae", new Address("서울", "신림", "1234"), null);
         em.persist(member);
 
         em.flush();
@@ -37,7 +37,7 @@ public class BaseEntityTest {
     @Test
     void 변경시_수정날짜_변경_성공() {
         //given
-        Member member = new Member("jae", new Address("서울", "신림", "1234"));
+        Member member = new Member("jae", new Address("서울", "신림", "1234"), null);
         em.persist(member);
         em.flush();
         em.clear();

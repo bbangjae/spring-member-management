@@ -29,14 +29,4 @@ public class Team extends BaseEntity {
     public Team(String teamName) {
         this.name = teamName;
     }
-
-    public void addMember(Member member) {
-        if (!members.contains(member)) {
-            members.add(member);
-        }
-
-        if (member.getTeam() != this) {
-            member.setTeam(this);
-        }
-    }
 }
