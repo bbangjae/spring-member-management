@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>팀 생성</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/common.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="form-title">새로운 팀 생성</div>
+    <div class="form-desc">팀 이름을 입력해 새로운 팀을 등록하세요</div>
+    <form id="teamForm">
+        <div class="mb-3">
+            <label for="teamName" class="form-label">팀 이름</label>
+            <input type="text" class="form-control" id="teamName" name="teamName" placeholder="팀 이름을 입력하세요." required>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            <a href="/" class="btn btn-secondary">홈으로</a>
+            <button type="submit" class="btn btn-primary">등록하기</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/teams/create-team-form.js"></script>
+</body>
+</html>
