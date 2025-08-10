@@ -19,9 +19,9 @@ public class TeamEntityTest {
     void 팀_멤버_추가_양방향_성공() {
         //given
         Team team = new Team("백엔드팀");
-        Member member = new Member("jae", new Address("서울", "신림", "1234"));
+        Member member = new Member("jae", new Address("서울", "신림", "1234"), null);
 
-        team.addMember(member);
+        member.changeTeam(team);
         em.persist(team);
         em.flush();
         em.clear();

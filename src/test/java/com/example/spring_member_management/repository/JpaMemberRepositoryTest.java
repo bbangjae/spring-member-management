@@ -27,7 +27,7 @@ public class JpaMemberRepositoryTest {
     @Test
     void 멤버_저장_조회_성공() {
         //given
-        Member member = new Member("jae", new Address("서울", "신림", "1234"));
+        Member member = new Member("jae", new Address("서울", "신림", "1234"), null);
 
         //when
         jpaMemberRepository.save(member);
@@ -41,7 +41,7 @@ public class JpaMemberRepositoryTest {
     @Test
     void 멤버_이름_변경_성공() {
         //given
-        Member member = new Member("jae", new Address("서울", "신림", "1234"));
+        Member member = new Member("jae", new Address("서울", "신림", "1234"), null);
 
         //when
         Member savedMember = jpaMemberRepository.save(member);
@@ -58,10 +58,10 @@ public class JpaMemberRepositoryTest {
     @Test
     void 모든_멤버_조회_성공() {
         //given
-        jpaMemberRepository.save(new Member("jae", new Address("서울", "신림", "1234")));
-        jpaMemberRepository.save(new Member("jae2", new Address("서울", "신림", "1234")));
-        jpaMemberRepository.save(new Member("jae3", new Address("서울", "신림", "1234")));
-        jpaMemberRepository.save(new Member("jae4", new Address("서울", "신림", "1234")));
+        jpaMemberRepository.save(new Member("jae", new Address("서울", "신림", "1234"), null));
+        jpaMemberRepository.save(new Member("jae2", new Address("서울", "신림", "1234"), null));
+        jpaMemberRepository.save(new Member("jae3", new Address("서울", "신림", "1234"), null));
+        jpaMemberRepository.save(new Member("jae4", new Address("서울", "신림", "1234"), null));
 
         //when
         List<Member> foundMembers = jpaMemberRepository.findAll();
@@ -73,7 +73,7 @@ public class JpaMemberRepositoryTest {
     @Test
     void 멤버_삭제_성공() {
         //given
-        Member savedMember = jpaMemberRepository.save(new Member("jae", new Address("서울", "신림", "1234")));
+        Member savedMember = jpaMemberRepository.save(new Member("jae", new Address("서울", "신림", "1234"), null));
 
         //when
         jpaMemberRepository.deleteById(savedMember.getId());
