@@ -1,5 +1,10 @@
 package com.example.spring_member_management.service.jpa;
 
+import com.example.spring_member_management.dto.TeamRequestDto;
+import com.example.spring_member_management.dto.TeamResponseDto;
+import com.example.spring_member_management.entity.Team;
+import com.example.spring_member_management.exception.BaseResponseCode;
+import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.dto.TeamResponseDto;
 import com.example.spring_member_management.repository.JpaTeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +22,28 @@ public class JpaTeamService {
     private final JpaTeamRepository teamRepository;
 
     /**
+     * 팀 생성
+     */
+    public Long createTeam(TeamRequestDto teamRequestDto) {
+        validateUniqueMemberName(teamRequestDto.getTeamName());
+
+        Team newTeam = teamRequestDto.toEntity();
+        return teamRepository.save(newTeam).getId();
+    }
+
+
+    /**
      * 전체 팀 목록 조회
      */
     public List<TeamResponseDto> getAllTeams() {
         return teamRepository.findAll().stream()
                 .map(TeamResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    private void validateUniqueMemberName(String teamName) {
+        if (teamRepository.existsByName(teamName)) {
+            throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_TEAM_NAME);
+        }
     }
 }
