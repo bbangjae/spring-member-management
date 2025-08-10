@@ -13,9 +13,9 @@ function getErrorMessage(responseBody, status) {
     return responseBody.statusMessage || '알 수 없는 오류';
 }
 
-async function registerMember(memberName) {
+async function registerMember(memberData) {
     try {
-        const response = await fetch('/api/members', getFetchOptions({ memberName }));
+        const response = await fetch('/api/members', getFetchOptions(memberData));
 
         if (response.status === 204) {
             alert('회원 등록 성공!');
@@ -32,18 +32,59 @@ async function registerMember(memberName) {
     }
 }
 
+async function loadTeams() {
+    const teamSelect = document.getElementById('team');
+    teamSelect.innerHTML = '<option>불러오는 중...</option>';
+
+    try {
+        const response = await fetch('/api/teams');
+        if (!response.ok) throw new Error('팀 정보를 불러오는 데 실패했습니다.');
+
+        const result = await response.json();
+        const teams = result.data;
+        if (!teams) throw new Error("API 응답 형식이 잘못되었습니다: 'data' 속성을 찾을 수 없습니다.");
+
+        teamSelect.innerHTML = '<option value="">팀 선택</option>';
+        teams.forEach(team => {
+            const option = document.createElement('option');
+            option.value = team.teamId;
+            option.textContent = team.teamName;
+            teamSelect.appendChild(option);
+        });
+    } catch (error) {
+        teamSelect.innerHTML = '<option value="">팀 목록 불러오기 실패</option>';
+        console.error('팀 로딩 실패:', error);
+    }
+}
+
 async function handleMemberFormSubmit(event) {
     event.preventDefault();
 
-    const nameInput = document.getElementById('memberName');
-    const memberName = nameInput.value.trim();
-
-    await registerMember(memberName);
+    const teamIdValue = document.getElementById('team').value;
+    const memberData = {
+        memberName: document.getElementById('memberName').value.trim(),
+        teamId: teamIdValue ? parseInt(teamIdValue, 10) : null,
+        address: {
+            city: document.getElementById('city').value.trim(),
+            street: document.getElementById('street').value.trim(),
+            zipcode: document.getElementById('zipcode').value.trim()
+        }
+    };
+    await registerMember(memberData);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const memberForm = document.getElementById('memberForm');
-    if (!memberForm) return;
+    if (memberForm) {
+        memberForm.addEventListener('submit', handleMemberFormSubmit);
 
-    memberForm.addEventListener('submit', handleMemberFormSubmit);
+        loadTeams().catch(console.error);
+    }
+
+    const teamSelect = document.getElementById('team');
+    if (teamSelect) {
+        teamSelect.addEventListener('focus', () => {
+            if (!teamsLoaded) loadTeams();
+        }, { once: true });
+    }
 });

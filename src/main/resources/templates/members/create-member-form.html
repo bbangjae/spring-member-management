@@ -20,6 +20,28 @@
             <label for="memberName" class="form-label">이름</label>
             <input type="text" class="form-control" id="memberName" name="memberName" placeholder="이름을 입력하세요." required>
         </div>
+        <div class="mb-3">
+            <label for="team" class="form-label">소속 팀</label>
+            <select id="team" name="teamId" class="form-select" required>
+                <option value="" disabled selected>팀 선택</option>
+            </select>
+            <div class="form-text text-muted" style="padding-left: 5px;">  회원이 속할 팀을 선택하세요.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">주소</label>
+            <div class="mb-2">
+                <label for="city" class="form-label visually-hidden">도시</label>
+                <input type="text" id="city" name="city" class="form-control" placeholder="도시">
+            </div>
+            <div class="mb-2">
+                <label for="street" class="form-label visually-hidden">거리</label>
+                <input type="text" id="street" name="street" class="form-control" placeholder="거리">
+            </div>
+            <div class="mb-2">
+                <label for="zipcode" class="form-label visually-hidden">우편번호</label>
+                <input type="text" id="zipcode" name="zipcode" class="form-control" placeholder="우편번호">
+            </div>
+        </div>
         <div class="d-flex justify-content-end gap-2">
             <a href="/" class="btn btn-secondary">홈 으로</a>
             <button type="submit" class="btn btn-primary">등록하기</button>
