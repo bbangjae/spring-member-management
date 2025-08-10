@@ -19,7 +19,7 @@ public class MemberEntityTest {
     void 멤버_주소_생성_성공() {
         // given
         Address address = new Address("서울", "신림", "1234");
-        Member member = new Member("jae", address);
+        Member member = new Member("jae", address, null);
 
         em.persist(member);
         em.flush();
@@ -36,7 +36,7 @@ public class MemberEntityTest {
     void 멤버_락커_배정_성공() {
         //given
         Address address = new Address("서울", "신림", "1234");
-        Member member = new Member("jae", address);
+        Member member = new Member("jae", address, null);
         Locker locker = new Locker("L1");
         member.assignLocker(locker);
 
