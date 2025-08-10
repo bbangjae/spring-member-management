@@ -37,6 +37,8 @@ public class JpaMemberService {
             team = findTeamById(teamId);
         }
 
+        validateUniqueMemberName(memberRequestDto.getMemberName());
+
         Member member = memberRequestDto.toEntity(team);
 
         return memberRepository.save(member).getId();
