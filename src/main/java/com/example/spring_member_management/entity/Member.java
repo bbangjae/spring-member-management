@@ -23,7 +23,6 @@ public class Member extends BaseEntity {
     @Embedded
     private Address address;
 
-
     @OneToOne
     @JoinColumn(name = "locker_id", unique = true)
     private Locker locker;
