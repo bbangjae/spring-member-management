@@ -10,6 +10,6 @@ public class TeamViewController {
 
     @GetMapping("/new")
     public String showCreateTeamForm() {
-        return "teams/createteam--form";
+        return "teams/create-team-form";
     }
 }

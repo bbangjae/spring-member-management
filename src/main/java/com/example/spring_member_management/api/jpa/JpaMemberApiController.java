@@ -26,7 +26,6 @@ public class JpaMemberApiController {
 
     @PostMapping
     public ResponseEntity<Void> createMember(@RequestBody MemberWithAddressRequestDto memberRequestDto) {
-        System.out.println(memberRequestDto);
         memberService.createMember(memberRequestDto);
         return ResponseEntity.noContent().build();
     }
