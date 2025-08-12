@@ -12,4 +12,9 @@ public class TeamViewController {
     public String showCreateTeamForm() {
         return "teams/create-team-form";
     }
+
+    @GetMapping
+    public String showTeamListPage() {
+        return "teams/team-list";
+    }
 }
