@@ -32,6 +32,8 @@ async function registerMember(memberData) {
     }
 }
 
+let teamsLoaded = false;
+
 async function loadTeams() {
     const teamSelect = document.getElementById('team');
     teamSelect.innerHTML = '<option>불러오는 중...</option>';
@@ -50,6 +52,8 @@ async function loadTeams() {
             option.value = team.teamId;
             option.textContent = team.teamName;
             teamSelect.appendChild(option);
+
+            teamsLoaded = true;
         });
     } catch (error) {
         teamSelect.innerHTML = '<option value="">팀 목록 불러오기 실패</option>';
