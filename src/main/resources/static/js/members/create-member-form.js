@@ -72,7 +72,8 @@ async function handleMemberFormSubmit(event) {
             city: document.getElementById('city').value.trim(),
             street: document.getElementById('street').value.trim(),
             zipcode: document.getElementById('zipcode').value.trim()
-        }
+        },
+        lockerNumber: document.getElementById('lockerNumber').value.trim()
     };
     await registerMember(memberData);
 }

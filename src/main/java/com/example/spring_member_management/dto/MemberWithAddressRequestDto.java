@@ -14,6 +14,7 @@ public class MemberWithAddressRequestDto {
     private String memberName;
     private Long teamId;
     private AddressDto address;
+    private String lockerNumber;
 
     public Member toEntity(Team team) {
         return Member.builder()
