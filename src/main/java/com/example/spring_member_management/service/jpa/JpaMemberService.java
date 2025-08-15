@@ -2,14 +2,17 @@ package com.example.spring_member_management.service.jpa;
 
 import com.example.spring_member_management.dto.MemberWithAddressRequestDto;
 import com.example.spring_member_management.dto.MemberWithTeamResponseDto;
+import com.example.spring_member_management.entity.Locker;
 import com.example.spring_member_management.entity.Member;
 import com.example.spring_member_management.entity.Team;
 import com.example.spring_member_management.exception.BaseResponseCode;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
 import com.example.spring_member_management.exception.MemberNotFoundException;
 import com.example.spring_member_management.exception.TeamNotFoundException;
+import com.example.spring_member_management.repository.JpaLockerRepository;
 import com.example.spring_member_management.repository.JpaMemberRepository;
 import com.example.spring_member_management.repository.JpaTeamRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +25,9 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class JpaMemberService {
 
-    private final JpaMemberRepository memberRepository;
     private final JpaTeamRepository teamRepository;
+    private final JpaLockerRepository lockerRepository;
+    private final JpaMemberRepository memberRepository;
 
     /**
      * 회원가입
@@ -40,6 +44,18 @@ public class JpaMemberService {
         validateUniqueMemberName(memberRequestDto.getMemberName());
 
         Member member = memberRequestDto.toEntity(team);
+
+        String lockerNumber = memberRequestDto.getLockerNumber();
+
+        if (StringUtils.isNotBlank(lockerNumber)) {
+            validateUniqueLockerNumber(lockerNumber);
+
+            Locker locker = Locker.builder()
+                    .lockerNumber(lockerNumber)
+                    .build();
+
+            member.assignLocker(locker);
+        }
 
         return memberRepository.save(member).getId();
     }
@@ -77,6 +93,12 @@ public class JpaMemberService {
     private void validateUniqueMemberName(String memberName) {
         if (memberRepository.existsByName(memberName)) {
             throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_MEMBER_NAME);
+        }
+    }
+
+    private void validateUniqueLockerNumber(String lockerNumber) {
+        if (lockerRepository.existsByNumber(lockerNumber)) {
+            throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_LOCKER_NUMBER);
         }
     }
 
