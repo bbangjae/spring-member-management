@@ -2,20 +2,18 @@
 .form-title {
     margin-bottom: 0.7rem;
 }
+
 .form-desc {
     font-size: 1.05rem;
     margin-bottom: 1.7rem;
 }
+
 .btn-primary {
     width: 70%;
     font-weight: 600;
     letter-spacing: 1px;
 }
-.btn-secondary {
-    width: 30%;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
+
 .btn-right {
     margin-top: 1rem;
 }

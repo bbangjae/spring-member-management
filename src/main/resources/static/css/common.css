@@ -43,8 +43,7 @@ body {
     gap: 1rem;
     justify-content: center;
 }
-.btn-custom,
-.btn-primary {
+.btn {
     min-width: 120px;
     padding: 0.6rem 1.2rem;
     font-weight: 500;
@@ -58,6 +57,7 @@ body {
     display: inline-block;
     letter-spacing: -0.5px;
 }
+
 .btn-right { text-align: right; }
 
 /* === 폼 === */
@@ -67,7 +67,8 @@ body {
 }
 
 /* === 테이블 === */
-.member-table th, .member-table td {
+.table th,
+.table td {
     text-align: center;
     vertical-align: middle;
 }
