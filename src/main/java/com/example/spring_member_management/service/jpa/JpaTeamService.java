@@ -2,6 +2,7 @@ package com.example.spring_member_management.service.jpa;
 
 import com.example.spring_member_management.dto.TeamRequestDto;
 import com.example.spring_member_management.dto.TeamResponseDto;
+import com.example.spring_member_management.dto.TeamWithMemberCountDto;
 import com.example.spring_member_management.entity.Team;
 import com.example.spring_member_management.exception.BaseResponseCode;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
@@ -38,6 +39,13 @@ public class JpaTeamService {
         return teamRepository.findAll().stream()
                 .map(TeamResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 전체 팀 목록 with 멤버 수
+     */
+    public List<TeamWithMemberCountDto> getAllTeamsWithMemberCount() {
+        return teamRepository.findAllTeamsWithMemberCount();
     }
 
     private void validateUniqueMemberName(String teamName) {
