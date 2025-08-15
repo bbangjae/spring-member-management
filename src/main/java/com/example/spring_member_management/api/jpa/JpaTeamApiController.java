@@ -3,6 +3,7 @@ package com.example.spring_member_management.api.jpa;
 import com.example.spring_member_management.common.BaseResponse;
 import com.example.spring_member_management.dto.TeamRequestDto;
 import com.example.spring_member_management.dto.TeamResponseDto;
+import com.example.spring_member_management.dto.TeamWithMemberCountDto;
 import com.example.spring_member_management.service.jpa.JpaTeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,13 @@ public class JpaTeamApiController {
 
     @GetMapping
     public ResponseEntity<BaseResponse<List<TeamResponseDto>>> getAllTeams() {
-        List<TeamResponseDto> team = teamService.getAllTeams();
-        return ResponseEntity.ok(BaseResponse.success(team));
+        List<TeamResponseDto> teams = teamService.getAllTeams();
+        return ResponseEntity.ok(BaseResponse.success(teams));
+    }
+
+    @GetMapping("/member-count")
+    public ResponseEntity<BaseResponse<List<TeamWithMemberCountDto>>> getAllTeamsWithMemberCount() {
+        List<TeamWithMemberCountDto> teams = teamService.getAllTeamsWithMemberCount();
+        return ResponseEntity.ok(BaseResponse.success(teams));
     }
 }
