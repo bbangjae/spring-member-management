@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface JpaMemberRepository extends JpaRepository<Member, Long> {
+public interface JpaMemberRepository extends JpaRepository<Member, Long>, JpaMemberRepositoryCustom {
     boolean existsByName(String name);
 
     @EntityGraph(attributePaths = "team")

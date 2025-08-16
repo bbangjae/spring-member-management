@@ -1,6 +1,7 @@
 package com.example.spring_member_management.service.jpa;
 
 import com.example.spring_member_management.dto.MemberWithAddressRequestDto;
+import com.example.spring_member_management.dto.MemberDetailResponseDto;
 import com.example.spring_member_management.dto.MemberWithTeamResponseDto;
 import com.example.spring_member_management.entity.Locker;
 import com.example.spring_member_management.entity.Member;
@@ -67,6 +68,15 @@ public class JpaMemberService {
         return memberRepository.findAllWithTeam().stream()
                 .map(MemberWithTeamResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 회원 상세 정보를 조회
+     */
+    public MemberDetailResponseDto getMemberDetailById(Long memberId) {
+        return memberRepository.findMemberDetailById(memberId)
+                .map(MemberDetailResponseDto::of)
+                .orElseThrow(() -> new MemberNotFoundException(BaseResponseCode.DATA_NOT_FOUND));
     }
 
     /**
