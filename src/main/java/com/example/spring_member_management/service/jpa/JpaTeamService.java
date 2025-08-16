@@ -1,11 +1,13 @@
 package com.example.spring_member_management.service.jpa;
 
+import com.example.spring_member_management.dto.TeamDetailResponseDto;
 import com.example.spring_member_management.dto.TeamRequestDto;
 import com.example.spring_member_management.dto.TeamResponseDto;
 import com.example.spring_member_management.dto.TeamWithMemberCountDto;
 import com.example.spring_member_management.entity.Team;
 import com.example.spring_member_management.exception.BaseResponseCode;
 import com.example.spring_member_management.exception.DuplicateMemberNameException;
+import com.example.spring_member_management.exception.TeamNotFoundException;
 import com.example.spring_member_management.repository.JpaTeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,15 @@ public class JpaTeamService {
         return teamRepository.findAll().stream()
                 .map(TeamResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 전체 팀 목록(회원 정보 포함) 조회
+     */
+    public TeamDetailResponseDto getTeamDetailById(Long teamId) {
+        return teamRepository.findTeamDetailById(teamId)
+                .map(TeamDetailResponseDto::of)
+                .orElseThrow(() -> new TeamNotFoundException(BaseResponseCode.DATA_NOT_FOUND));
     }
 
     /**
