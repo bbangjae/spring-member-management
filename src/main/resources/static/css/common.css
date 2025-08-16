@@ -24,7 +24,11 @@ body {
     text-align: center;
     letter-spacing: -1px;
 }
-
+.table-sub {
+    font-weight: 700;
+    color: #4a90e2;
+    letter-spacing: -1px;
+}
 .table-title {
     margin-bottom: 2rem;
 }
