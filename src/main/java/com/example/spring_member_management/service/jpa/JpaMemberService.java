@@ -1,5 +1,6 @@
 package com.example.spring_member_management.service.jpa;
 
+import com.example.spring_member_management.dto.MemberUpdateRequestDto;
 import com.example.spring_member_management.dto.MemberWithAddressRequestDto;
 import com.example.spring_member_management.dto.MemberDetailResponseDto;
 import com.example.spring_member_management.dto.MemberWithTeamResponseDto;
@@ -90,6 +91,17 @@ public class JpaMemberService {
             validateUniqueMemberName(newName);
 
         member.changeName(newName);
+    }
+
+    @Transactional
+    public void updateMember(Long memberId, MemberUpdateRequestDto memberUpdateRequestDto) {
+        Member member = findMemberById(memberId);
+        Team updateTeam = findTeamById(memberUpdateRequestDto.getTeamId());
+
+        member.changeName(memberUpdateRequestDto.getMemberName());
+        member.changeTeam(updateTeam);
+        member.changeAddress(memberUpdateRequestDto.getAddress());
+        member.changeLocker(memberUpdateRequestDto.getLockerNumber());
     }
 
     /**

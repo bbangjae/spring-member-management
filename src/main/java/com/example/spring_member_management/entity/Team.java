@@ -22,7 +22,7 @@ public class Team extends BaseEntity {
     @Column(name = "team_name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     private List<Member> members = new ArrayList<>();
 
     @Builder

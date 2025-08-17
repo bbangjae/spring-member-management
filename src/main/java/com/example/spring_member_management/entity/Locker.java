@@ -16,7 +16,7 @@ public class Locker extends BaseEntity {
     @Column(name = "locker_id")
     private Long id;
 
-    @Column(name = "locker_number", unique = true)
+    @Column(name = "locker_number", nullable = false)
     private String number;
 
     @Builder
