@@ -2,6 +2,7 @@ package com.example.spring_member_management.api.jpa;
 
 import com.example.spring_member_management.common.BaseResponse;
 import com.example.spring_member_management.dto.MemberRequestDto;
+import com.example.spring_member_management.dto.MemberUpdateRequestDto;
 import com.example.spring_member_management.dto.MemberWithAddressRequestDto;
 import com.example.spring_member_management.dto.MemberWithTeamResponseDto;
 import com.example.spring_member_management.service.jpa.JpaMemberService;
@@ -30,11 +31,11 @@ public class JpaMemberApiController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{memberId}")
-    public ResponseEntity<Void> updateMemberName(
+    @PatchMapping("/{memberId}/edit")
+    public ResponseEntity<Void> updateMember(
             @PathVariable Long memberId,
-            @RequestBody MemberRequestDto request) {
-        memberService.updateMemberNameById(memberId, request.getMemberName());
+            @RequestBody MemberUpdateRequestDto memberUpdateRequestDto) {
+        memberService.updateMember(memberId, memberUpdateRequestDto);
         return ResponseEntity.noContent().build();
     }
 

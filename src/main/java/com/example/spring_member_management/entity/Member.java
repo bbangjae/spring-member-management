@@ -1,5 +1,6 @@
 package com.example.spring_member_management.entity;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -51,7 +52,19 @@ public class Member extends BaseEntity {
         }
     }
 
+    public void changeAddress(Address newAddress) {
+        this.address = newAddress;
+    }
+
     public void assignLocker(Locker locker) {
         this.locker = locker;
+    }
+
+    public void changeLocker(String lockerName) {
+        if (StringUtils.isBlank(lockerName)) {
+            this.locker = null;
+            return;
+        }
+        this.locker = new Locker(lockerName);
     }
 }
