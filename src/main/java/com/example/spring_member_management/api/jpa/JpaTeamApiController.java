@@ -35,4 +35,16 @@ public class JpaTeamApiController {
         List<TeamWithMemberCountDto> teams = teamService.getAllTeamsWithMemberCount();
         return ResponseEntity.ok(BaseResponse.success(teams));
     }
+
+    @PatchMapping("/{teamId}/edit")
+    public ResponseEntity<Void> updateTeamName(@PathVariable Long teamId, @RequestBody TeamRequestDto teamRequestDto) {
+        teamService.updateTeamName(teamId, teamRequestDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{teamId}/delete")
+    public ResponseEntity<Void> updateTeamName(@PathVariable Long teamId) {
+        teamService.deleteTeamById(teamId);
+        return ResponseEntity.noContent().build();
+    }
 }
