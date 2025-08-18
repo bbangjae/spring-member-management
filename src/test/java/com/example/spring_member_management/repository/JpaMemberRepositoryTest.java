@@ -2,11 +2,15 @@ package com.example.spring_member_management.repository;
 
 import com.example.spring_member_management.entity.Address;
 import com.example.spring_member_management.entity.Member;
+import com.example.spring_member_management.entity.Team;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 public class JpaMemberRepositoryTest {
-
     @Autowired
     private JpaMemberRepository jpaMemberRepository;
 
@@ -83,5 +86,39 @@ public class JpaMemberRepositoryTest {
 
         //then
         assertThat(jpaMemberRepository.findById(savedMember.getId())).isEmpty();
+    }
+
+    @Test
+    void 멤버_리스트_페이징_성공() {
+        //given
+        for (int i = 1; i < 13; i++) {
+            Team team = new Team("team" + i);
+            Member member = new Member("member" + i, null, team);
+            em.persist(team);
+            em.persist(member);
+        }
+        em.flush();
+        em.clear();
+
+        Pageable pageable = PageRequest.of(1, 10);
+
+        // when
+        Page<Member> result = jpaMemberRepository.findMembersWithTeam(pageable);
+
+        // then
+        assertThat(result.getTotalElements()).isEqualTo(12);
+        assertThat(result.getTotalPages()).isEqualTo(2);
+        assertThat(result.getContent()).hasSize(2);
+
+        assertThat(result.getContent())
+                .element(0)
+                .extracting(Member::getName)
+                .isEqualTo("member11");
+
+        assertThat(result.getContent())
+                .element(0)
+                .extracting(Member::getTeam)
+                .extracting(Team::getName)
+                .isEqualTo("team11");
     }
 }
