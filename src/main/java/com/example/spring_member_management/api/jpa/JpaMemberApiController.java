@@ -1,7 +1,6 @@
 package com.example.spring_member_management.api.jpa;
 
 import com.example.spring_member_management.common.BaseResponse;
-import com.example.spring_member_management.dto.MemberRequestDto;
 import com.example.spring_member_management.dto.MemberUpdateRequestDto;
 import com.example.spring_member_management.dto.MemberWithAddressRequestDto;
 import com.example.spring_member_management.dto.MemberWithTeamResponseDto;
@@ -39,7 +38,7 @@ public class JpaMemberApiController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/{memberId}/delete")
     public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {
         memberService.deleteMemberById(memberId);
         return ResponseEntity.noContent().build();
