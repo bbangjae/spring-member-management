@@ -6,6 +6,8 @@ import com.example.spring_member_management.dto.MemberWithAddressRequestDto;
 import com.example.spring_member_management.dto.MemberWithTeamResponseDto;
 import com.example.spring_member_management.service.jpa.JpaMemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +20,15 @@ public class JpaMemberApiController {
 
     private final JpaMemberService memberService;
 
+//    @GetMapping
+//    public ResponseEntity<BaseResponse<List<MemberWithTeamResponseDto>>> getAllMembers() {
+//        List<MemberWithTeamResponseDto> members = memberService.getAllMembersWithTeam();
+//        return ResponseEntity.ok(BaseResponse.success(members));
+//    }
+
     @GetMapping
-    public ResponseEntity<BaseResponse<List<MemberWithTeamResponseDto>>> getAllMembers() {
-        List<MemberWithTeamResponseDto> members = memberService.getAllMembersWithTeam();
+    public ResponseEntity<BaseResponse<Page<MemberWithTeamResponseDto>>> getMembersWithTeam(Pageable pageable) {
+        Page<MemberWithTeamResponseDto> members = memberService.getMembersWithTeamPage(pageable);
         return ResponseEntity.ok(BaseResponse.success(members));
     }
 

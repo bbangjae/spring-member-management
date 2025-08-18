@@ -16,6 +16,8 @@ import com.example.spring_member_management.repository.JpaMemberRepository;
 import com.example.spring_member_management.repository.JpaTeamRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +71,15 @@ public class JpaMemberService {
         return memberRepository.findAllWithTeam().stream()
                 .map(MemberWithTeamResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 전체 회원 목록(팀 포함 + 페이징) 조회
+     */
+    public Page<MemberWithTeamResponseDto> getMembersWithTeamPage(Pageable pageable) {
+        Page<Member> members = memberRepository.findMembersWithTeam(pageable);
+
+        return members.map(MemberWithTeamResponseDto::of);
     }
 
     /**
