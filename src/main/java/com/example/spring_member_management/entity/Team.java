@@ -29,4 +29,8 @@ public class Team extends BaseEntity {
     public Team(String teamName) {
         this.name = teamName;
     }
+
+    public void changeName(String teamName) {
+        this.name = teamName;
+    }
 }

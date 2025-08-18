@@ -28,7 +28,7 @@ public class JpaTeamService {
      */
     @Transactional
     public Long createTeam(TeamRequestDto teamRequestDto) {
-        validateUniqueMemberName(teamRequestDto.getTeamName());
+        validateUniqueTeamName(teamRequestDto.getTeamName());
 
         Team newTeam = teamRequestDto.toEntity();
         return teamRepository.save(newTeam).getId();
@@ -59,9 +59,34 @@ public class JpaTeamService {
         return teamRepository.findAllTeamsWithMemberCount();
     }
 
-    private void validateUniqueMemberName(String teamName) {
+    /**
+     * 팀 명 수정
+     */
+    @Transactional
+    public void updateTeamName(Long teamId, TeamRequestDto teamRequestDto) {
+        Team team = findTeamById(teamId);
+        validateUniqueTeamName(teamRequestDto.getTeamName());
+
+        team.changeName(teamRequestDto.getTeamName());
+    }
+
+    /**
+     * 팀 삭제
+     */
+    @Transactional
+    public void deleteTeamById(Long teamId) {
+        findTeamById(teamId);
+        teamRepository.deleteById(teamId);
+    }
+
+    private void validateUniqueTeamName(String teamName) {
         if (teamRepository.existsByName(teamName)) {
             throw new DuplicateMemberNameException(BaseResponseCode.DUPLICATE_TEAM_NAME);
         }
+    }
+
+    private Team findTeamById(Long teamId) {
+        return teamRepository.findById(teamId)
+                .orElseThrow(() -> new TeamNotFoundException(BaseResponseCode.DATA_NOT_FOUND));
     }
 }

@@ -29,6 +29,6 @@ public class TeamViewController {
     public String showTeamDetailPage(@PathVariable("teamId") Long teamId, Model model) {
         TeamDetailResponseDto team = teamService.getTeamDetailById(teamId);
         model.addAttribute("team", team);
-        return "teams/team-details";
+        return "teams/team-detail";
     }
 }
