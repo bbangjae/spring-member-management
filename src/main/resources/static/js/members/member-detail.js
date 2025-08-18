@@ -109,4 +109,19 @@ document.addEventListener("DOMContentLoaded", () => {
             // apiRequest 내부에서 에러 처리됨
         }
     });
+
+    /** 삭제 버튼 클릭 */
+    deleteBtn.addEventListener("click", async () => {
+        if (confirm("정말로 이 회원을 삭제하시겠습니까?")) {
+            try {
+                await apiRequest(`/api/members/${memberId}/delete`, {
+                    method: "DELETE"
+                });
+                alert("회원이 삭제되었습니다.");
+                window.location.href = "/members";
+            } catch (e) {
+                // apiRequest 내부에서 에러 처리됨
+            }
+        }
+    });
 });
