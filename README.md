@@ -1,7 +1,7 @@
 #  spring-member-management
 
 Spring의 핵심 기능과 ORM 연동 방식을 직접 구현하고 비교하며 학습하는 CRUD 기반의 예제 프로젝트입니다.  
-단순한 구현을 넘어 Spring의 구조와 데이터 처리 흐름을 깊이 있게 이해하는 것이 목표로 합니다.
+단순 CRUD를 넘어, Spring Data JPA + Querydsl 기반 성능 최적화, 계층형 아키텍처, 전역 예외 처리, 테스트 코드 작성까지 확장성과 유지보수성을 고려하여 구현했습니다.
 
 ## 목차
 - [프로젝트 목표](#프로젝트-목표)
@@ -11,17 +11,19 @@ Spring의 핵심 기능과 ORM 연동 방식을 직접 구현하고 비교하며
 
 ## 프로젝트 목표
 - CRUD 기능 구현을 통해 Spring의 데이터 처리 흐름을 명확히 이해
-- Memory, MyBatis, JPA 각각의 방식으로 CRUD를 구현하며 ORM 차이점 학습
+- `Memory → MyBatis → JPA(Querydsl)` 다양한 ORM 접근 방식을 비교 및 학습
+- 객체지향적 도메인 모델링과 확장성 있는 아키텍처 설계 적용
 - 코드 작성 시 동작 원리를 이해하고, 재사용성과 가독성을 고려하여 작성
 
 ## 기술 스택
 
-| 항목            | 상세 설명                                    |
-|-----------------|------------------------------------------|
-| **백엔드**      | Spring Boot, Spring MVC                  |
-| **데이터베이스**| H2                           |
-| **ORM 방식**    | Memory Repository, MyBatis, JPA          |
-| **기타 구성**   | REST API, View Controller 분리<br>계층 구조 설계<br>전역 예외 처리<br>DTO, 도메인 분리 등 |
+| 항목         | 상세 설명                                                     |
+|------------|-----------------------------------------------------------|
+| **프론트**    | HTML, CSS, JavaScript                                     |
+| **백엔드**    | Java, Spring Boot, Spring MVC                   |
+| **데이터베이스** | H2                                                        |
+| **데이터 접근 계층** | Spring Data JPA, Querydsl, MyBatis, Memory Repository |
+| **테스트 & 도구**  | JUnit5, P6Spy, JPA Auditing                               |
 
 ## 폴더 구조
 
